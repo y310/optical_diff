@@ -16,7 +16,7 @@ class OpticalDiff
 
     def strip_ignore_elements(page, ignore = [])
       ignore.each do |selector|
-        page.css(selector).remove
+        page.search(selector).remove
       end
       page
     end
