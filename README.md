@@ -18,12 +18,25 @@ Or install it yourself as:
 
 ## Usage
 
+### Ignore specified html element by css selector or xpath
+
 ```ruby
 html1 = "<html><body>text</body></html>"
 html2 = "<html><body>text<p class = 'random_text'>qwerty</p></body></html>"
 diff = OpticalDiff.diff(html1, html2, :ignore => 'p.random_text')
 diff.changed? #=> false
 ```
+
+### Replace text
+
+```ruby
+html1 = "<html><body><a href='/link?abcde'>text</a></body></html>"
+html2 = "<html><body><a href='/link?fghij'>text</a></body></html>"
+diff = OpticalDiff.diff(html1, html2, :replace => [[/\?.+?'/, "'"]])
+diff.changed? #=> false
+```
+
+``:replace`` is always processed before ``:ignore``
 
 ## Contributing
 

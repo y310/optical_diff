@@ -34,5 +34,25 @@ describe OpticalDiff do
       subject { OpticalDiff.diff(html1, html3, :ignore => ['.ignore', '//p[contains(text(), "xpath")]']) }
       it { should_not be_changed }
     end
+
+    context 'by regex filter' do
+      let(:html3) { "<html><body>abcde<p class='ignore'>ignore</p><p>xpath</p></body></html>" }
+      subject { OpticalDiff.diff(html1, html2, :filter => [/ignore/], :ignore => ['.ignore', '//p[contains(text(), "xpath")]']) }
+      it { should_not be_changed }
+    end
+  end
+
+  context 'replace' do
+    let(:html1) { "<html><body><a href='/link?efghi'>abcde</a>zzzzz</body></html>" }
+    let(:html2) { "<html><body><a href='/link?jklmn'>abcde</a>zzzzz</body></html>" }
+
+    subject { OpticalDiff.diff(html1, html2, :replace => [[/\?.+?'/, "'"], [/zzzzz/, '']]) }
+    it { should_not be_changed }
+
+    context 'with ignore option' do
+      let(:html3) { "<html><body><a href='/link?opqrs'>abcde</a><p class='ignore'>ignore</p><p>xpath</p></body></html>" }
+      subject { OpticalDiff.diff(html1, html3, :replace => [[/\?.+?'/, "'"], [/zzzzz/, '']], :ignore => ['.ignore', '//p[contains(text(), "xpath")]']) }
+      it { should_not be_changed }
+    end
   end
 end
