@@ -34,6 +34,8 @@ class OpticalDiff
   end
 
   class DiffResult
+    attr_reader :diff
+
     def initialize(diff)
       @diff = diff
     end
