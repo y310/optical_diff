@@ -8,13 +8,13 @@ class OpticalDiff
       options = {
         :replace => [],
         :ignore => [],
-        :diffy_options => {}
+        :diff_option => Diffy::Diff.default_options[:diff]
       }.merge(options)
 
       replaced_htmls = [html1, html2].map {|html| replace(html, options[:replace]) }
       parsed_htmls = replaced_htmls.map {|html| Nokogiri::HTML.parse(html) }
       stripped_htmls = parsed_htmls.map {|html| strip_ignore_elements(html, options[:ignore]) }
-      DiffResult.new(Diffy::Diff.new(*stripped_htmls.map(&:to_html), options[:diffy_options]))
+      DiffResult.new(Diffy::Diff.new(*stripped_htmls.map(&:to_html), :diff => options[:diff_options]))
     end
 
     def replace(page, patterns = [])
