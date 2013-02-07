@@ -23,7 +23,7 @@ Or install it yourself as:
 ```ruby
 html1 = "<html><body>text</body></html>"
 html2 = "<html><body>text<p class = 'random_text'>qwerty</p></body></html>"
-diff = OpticalDiff.diff(html1, html2, :ignore => 'p.random_text')
+diff = OpticalDiff.diff(html1, html2, :ignore => %w(p.random_text'))
 diff.changed? #=> false
 ```
 
